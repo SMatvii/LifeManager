@@ -1,5 +1,9 @@
 # LifeManager - Фінансовий помічник
 
+<div align="center">
+  <img src="core/static/img/favicon.ico" alt="LifeManager Logo" width="64" height="64">
+</div>
+
 **Сучасний особистий фінансовий менеджер на Django з красивим інтерфейсом та потужними можливостями**
 
 ![Django](https://img.shields.io/badge/Django-4.2+-092E20?logo=django&logoColor=white)
