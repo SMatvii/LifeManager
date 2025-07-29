@@ -368,7 +368,6 @@ GET /api/transactions/stats/
 GET/POST /api/events/
 POST /api/events/{id}/complete/
 ```
-
 ---
 
 ## 💻 Технології
