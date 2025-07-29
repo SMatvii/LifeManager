@@ -139,7 +139,18 @@ python manage.py runserver
 - Зареєструйтесь або увійдіть
 - Почніть керувати своїми фінансами!
 
-### Крок 6: Тестування
+### Крок 6: API та Swagger документація
+```bash
+# Запуск сервера
+python manage.py runserver
+
+# Відкрийте у браузері:
+# Swagger UI: http://localhost:8000/api/docs/
+# ReDoc: http://localhost:8000/api/redoc/
+# API Schema: http://localhost:8000/api/schema/
+```
+
+### Крок 7: Тестування
 ```bash
 # Запуск всіх тестів
 pytest
@@ -178,6 +189,14 @@ finassistant/
 │   ├── models.py            # Моделі: User, Category, Transaction, Event
 │   ├── views.py             # View функції та класи
 │   ├── forms.py             # Django форми
+│   ├── api_views.py         # API ViewSets
+│   ├── api_urls.py          # API маршрути
+│   ├── 📁 serializers/      # API серіалізатори
+│   │   ├── __init__.py
+│   │   ├── user_serializers.py
+│   │   ├── category_serializers.py
+│   │   ├── transaction_serializers.py
+│   │   └── event_serializers.py
 ├── 📁 tests/
 │   ├── conftest.py
 │   ├── test_models.py
@@ -201,9 +220,82 @@ finassistant/
 
 ---
 
+## 🚀 API та Swagger документація
+
+### Swagger UI - Інтерактивна документація
+Після запуску сервера відкрийте: **http://localhost:8000/api/docs/**
+
+### Основні API endpoints:
+
+#### 📊 **Categories API**
+```bash
+GET    /api/categories/          # Список категорій
+POST   /api/categories/          # Створення категорії
+GET    /api/categories/{id}/     # Деталі категорії
+PUT    /api/categories/{id}/     # Оновлення категорії
+DELETE /api/categories/{id}/     # Видалення категорії
+GET    /api/categories/by_type/  # Категорії за типом (?type=income/expense)
+```
+
+#### 💰 **Transactions API**
+```bash
+GET    /api/transactions/          # Список транзакцій
+POST   /api/transactions/          # Створення транзакції
+GET    /api/transactions/{id}/     # Деталі транзакції
+PUT    /api/transactions/{id}/     # Оновлення транзакції
+DELETE /api/transactions/{id}/     # Видалення транзакції
+GET    /api/transactions/stats/    # Статистика (доходи/витрати/баланс)
+GET    /api/transactions/by_type/  # Транзакції за типом
+```
+
+#### 📅 **Events API**
+```bash
+GET    /api/events/           # Список подій
+POST   /api/events/           # Створення події
+GET    /api/events/{id}/      # Деталі події
+PUT    /api/events/{id}/      # Оновлення події
+DELETE /api/events/{id}/      # Видалення події
+POST   /api/events/{id}/complete/  # Завершити подію
+GET    /api/events/active/    # Активні події
+```
+
+#### 👤 **Profile API**
+```bash
+GET    /api/profile/me/       # Мій профіль
+```
+
+### Приклади використання API:
+
+#### Створення категорії:
+```bash
+curl -X POST http://localhost:8000/api/categories/ \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Їжа", "type": "expense"}'
+```
+
+#### Отримання статистики:
+```bash
+curl http://localhost:8000/api/transactions/stats/
+```
+
+#### Створення транзакції:
+```bash
+curl -X POST http://localhost:8000/api/transactions/ \
+  -H "Content-Type: application/json" \
+  -d '{"category": 1, "amount": "150.50", "description": "Обід"}'
+```
+
+### Авторизація API:
+- Використовується сесійна автентифікація Django
+- Для доступу до API потрібно бути авторизованим
+- Endpoint для входу: `/api-auth/login/`
+
+---
+
 ## Технології
 
-- **Backend**: Django 4.2+, Python 3.12+
+- **Backend**: Django 5.2+, Python 3.12+, Django REST Framework 3.16+
+- **API Documentation**: drf-spectacular (OpenAPI 3.0)
 - **Frontend**: Bootstrap 5.3, Custom CSS, Chart.js
 - **База даних**: SQLite (розробка), PostgreSQL (продакшн)
 - **Авторизація**: django-allauth (OAuth2)

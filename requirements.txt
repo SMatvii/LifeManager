@@ -8,6 +8,8 @@ cryptography==45.0.5
 Django==5.2.4
 django-allauth==65.10.0
 django-crispy-forms==2.4
+djangorestframework==3.15.2
+drf-spectacular==0.28.0
 idna==3.10
 iniconfig==2.1.0
 jwt==1.4.0
