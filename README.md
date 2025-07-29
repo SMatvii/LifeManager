@@ -1,7 +1,7 @@
 # LifeManager - Фінансовий помічник
 
 <div align="center">
-  <img src="finassistant/core/static/img/LifeManager.png" alt="LifeManager Logo" width="264" height="213">
+  <img src="finassistant/core/static/img/LifeManager.png" alt="LifeManager Logo" width="623" height="548">
 </div>
 
 
