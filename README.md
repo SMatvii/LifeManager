@@ -54,7 +54,69 @@ cd finassistant
 pip install -r requirements.txt
 ```
 
-### Крок 2: Налаштування бази даних
+### Крок 2: Налаштування середовища
+Створіть файл `.env` в корені проекту та додайте наступні змінні:
+```env
+SECRET_KEY=""
+DEBUG="True"
+DATABASE_URL="sqlite:///db.sqlite3"
+DATABASE_NAME="db.sqlite3"
+
+GOOGLE_CLIENT_ID = ""
+GOOGLE_CLIENT_SECRET = ""
+
+GITHUB_CLIENT_ID = ""
+GITHUB_CLIENT_SECRET = ""
+```
+
+секретний ключ можна згенерувати за допомогою Django:
+```bash
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+```
+
+
+Нижче покроково описано, як отримати ці значення.
+
+---
+
+## 🔐 Як отримати Google OAuth 2.0 Client ID та Secret
+
+1. Перейдіть на [Google Cloud Console](https://console.cloud.google.com/).
+2. Створіть новий проєкт або виберіть існуючий.
+3. У меню зліва оберіть **APIs & Services > Credentials**.
+4. Натисніть **Create Credentials > OAuth 2.0 Client ID**.
+5. Якщо потрібно, спочатку налаштуйте **OAuth consent screen**:
+   - Оберіть тип (Internal або External)
+   - Заповніть необхідну інформацію: App name, User support email, Developer contact info.
+6. Оберіть **Application type: Web application**.
+7. Додайте авторизовані URI:
+   - **Authorized redirect URIs**, в нашому випадку це: `http://127.0.0.1:8000/accounts/google/login/callback/`
+8. Після створення ви отримаєте:
+   - **Client ID**
+   - **Client Secret**
+
+Збережіть ці значення у `.env` файлі вашого проєкту.
+
+---
+
+## 🔐 Як отримати GitHub OAuth Client ID та Secret
+
+1. Перейдіть на [GitHub Developer Settings](https://github.com/settings/developers).
+2. Оберіть **OAuth Apps** → натисніть **New OAuth App**.
+3. Заповніть форму:
+   - **Application name**: назва вашого додатку
+   - **Homepage URL**: в нашому випадку це, `http://127.0.0.1:8000/`
+   - **Authorization callback URL**: в нашому випадку це, `http://127.0.0.1:8000/accounts/github/login/callback/`
+4. Натисніть **Register Application**.
+5. Ви отримаєте:
+   - **Client ID**
+   - Натисніть **Generate a new client secret**, щоб отримати **Client Secret**
+
+Збережіть значення у `.env` файлі.
+
+---
+
+### Крок 3: Налаштування бази даних
 ```bash
 # Міграції
 python manage.py migrate
@@ -63,7 +125,7 @@ python manage.py migrate
 python manage.py createsuperuser
 
 ```
-### Крок 3: OAuth налаштування (опціонально)
+### Крок 4: OAuth налаштування (опціонально)
 ```bash
 # Запуск сервера
 python manage.py runserver
@@ -72,12 +134,12 @@ python manage.py runserver
 # Додайте Social Application для Google та GitHub
 ```
 
-### Крок 4: Користування
+### Крок 5: Користування
 - Відкрийте **http://localhost:8000**
 - Зареєструйтесь або увійдіть
 - Почніть керувати своїми фінансами!
 
-### Крок 5: Тестування
+### Крок 6: Тестування
 ```bash
 # Запуск всіх тестів
 pytest
