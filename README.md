@@ -274,7 +274,6 @@ finassistant/
 ├── requirements.txt        # Python залежності
 └── README.md              # Документація
 ```
-
 ---
 
 ## API та Swagger документація
