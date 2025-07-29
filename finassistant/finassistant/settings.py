@@ -134,7 +134,6 @@ SOCIALACCOUNT_PROVIDERS = {
     },
 }
 
-# Django REST Framework
 REST_FRAMEWORK = {
     'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
     'DEFAULT_PERMISSION_CLASSES': [
@@ -144,7 +143,6 @@ REST_FRAMEWORK = {
     'PAGE_SIZE': 20
 }
 
-# Spectacular settings
 SPECTACULAR_SETTINGS = {
     'TITLE': 'LifeManager API',
     'DESCRIPTION': 'API для фінансового помічника LifeManager',
