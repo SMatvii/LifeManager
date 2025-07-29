@@ -5,27 +5,7 @@
 </div>
 
 
-**Сучасний особистий фінансовий менеджер на Django з красивим ін├── 📂 core/                            # 🎯 Основний додаток
-│   ├── ├── 📂 .github/                         # 🤖 GitHub Actions CI/CD
-│   └── 📂 workflows/
-│       └── �📄 django.yml               # Автоматичне тестування
-│
-├── 📄 manage.py                        # 🔧 Django менеджер команд
-├── 📄 requirements.txt                 # 📦 Python залежності
-├── 📄 pytest.ini                      # ⚙️ Конфігурація pytest
-├── 📄 .env.example                     # 🔒 Приклад файлу змінних оточення
-├── 📄 .gitignore                       # 🚫 Git ігнорування файлів
-├── 📄 LICENSE                          # ⚖️ Ліцензія проекту
-└── 📄 README.md                        # 📖 Документація проектуit__.py
-│   ├── 📄 admin.py                     # Налаштування адмін-панелі
-│   ├── 📄 apps.py                      # Конфігурація додатку
-│   ├── 📄 models.py                    # 🗄️ Моделі: User, Category, Transaction, Event
-│   ├── 📄 views.py                     # 🌐 View функції та класи
-│   ├── 📄 forms.py                     # 📝 Django форми
-│   ├── 📄 urls.py                      # URL маршрути додатку
-│   ├── 📄 api_views.py                 # 🚀 API ViewSets
-│   ├── 📄 api_urls.py                  # 🔗 API маршрути
-│   │потужними можливостями**
+**Сучасний особистий фінансовий менеджер на Django з красивим інтерфейсом та потужними можливостями**
 
 ![Django](https://img.shields.io/badge/Django-4.2+-092E20?logo=django&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.12+-3776AB?logo=python&logoColor=white)
@@ -136,38 +116,22 @@ python -c "from django.core.management.utils import get_random_secret_key; print
 
 ---
 
-### Крок 3: Налаштування бази даних та міграції
+### Крок 3: Налаштування бази даних
 ```bash
-# Перейдіть до папки проекту
-cd finassistant
-
-# Створення міграцій (якщо потрібно)
-python manage.py makemigrations
-
-# Застосування міграцій до бази даних
+# Міграції
 python manage.py migrate
 
-# Створення суперкористувача для доступу до адмін панелі
+# Створення суперкористувача
 python manage.py createsuperuser
 
-# Перевірка міграцій (опціонально)
-python manage.py showmigrations
-
-# Перевірка статусу проекту
-python manage.py check
 ```
-
 ### Крок 4: OAuth налаштування (опціонально)
 ```bash
-# Запуск сервера розробки
+# Запуск сервера
 python manage.py runserver
 
 # Відкрийте http://localhost:8000/admin/
-# Увійдіть як суперкористувач
-# Перейдіть до Sites → додайте domain: 127.0.0.1:8000
-# Перейдіть до Social Applications → додайте провайдерів:
-#   - Provider: Google, Name: Google OAuth, Client ID: ваш_google_client_id
-#   - Provider: GitHub, Name: GitHub OAuth, Client ID: ваш_github_client_id
+# Додайте Social Application для Google та GitHub
 ```
 
 ### Крок 5: Користування
@@ -177,207 +141,166 @@ python manage.py runserver
 
 ### Крок 6: API та Swagger документація
 ```bash
-# Запуск сервера розробки
+# Запуск сервера
 python manage.py runserver
 
 # Відкрийте у браузері:
-# Swagger UI (інтерактивна документація): http://localhost:8000/api/docs/
-# ReDoc (альтернативна документація): http://localhost:8000/api/redoc/
-
-# Генерація схеми у файл (опціонально)
-python manage.py spectacular --color --file schema.json
-
-# Перевірка API endpoints
-curl http://localhost:8000/api/categories/
-curl http://localhost:8000/api/docs/
+# Swagger UI: http://localhost:8000/api/docs/
+# ReDoc: http://localhost:8000/api/redoc/
+# API Schema: http://localhost:8000/api/schema/
 ```
-
-#### 🎯 Особливості Swagger документації:
-- **Інтерактивність**: Можна тестувати API прямо в браузері
-- **Автентифікація**: Підтримка сесійної авторизації Django
-- **Деталізація**: Повні описи параметрів, відповідей та помилок
-- **Фільтрація**: Пошук endpoints за тегами та операціями
-- **Експорт**: Можливість завантажити OpenAPI схему
-- **Українська локалізація**: Описи та помилки українською мовою
 
 ### Крок 7: Тестування
 ```bash
-# Всі тести
+# Запуск всіх тестів
 pytest
 
-# З покриттям коду
+# Запуск тестів з детальним виводом
+pytest tests/ -v
+
+# Запуск тестів з покриттям коду
 pytest --cov=core
 
-# Конкретні тести
+# Запуск конкретного тестового файлу
 pytest tests/test_models.py
-pytest -m "unit"             # Тільки unit тести
-pytest -m "not slow"         # Без повільних тестів
+
+# Запуск без попереджень
+pytest tests/ --disable-warnings
 ```
 
-**Тести:** `test_models.py`, `test_views.py`, `test_forms.py`, `test_integration.py`
+**Структура тестів:**
+- `tests/test_models.py` - тести моделей Django
+- `tests/test_views.py` - тести views та URL
+- `tests/test_forms.py` - тести форм
+- `tests/test_integration.py` - інтеграційні тести
+- `tests/conftest.py` - конфігурація pytest та фікстури
 
-### Крок 8: Робота з міграціями
+---
+
+## 📁Структура проекту
+
+```
+finassistant/
+├── 📁 finassistant/          # Основні налаштування Django
+│   ├── settings.py           # Конфігурація проекту
+│   ├── urls.py              # URL маршрути
+│   └── wsgi.py              # WSGI конфігурація
+├── 📁 core/                 # Основний додаток
+│   ├── models.py            # Моделі: User, Category, Transaction, Event
+│   ├── views.py             # View функції та класи
+│   ├── forms.py             # Django форми
+│   ├── api_views.py         # API ViewSets
+│   ├── api_urls.py          # API маршрути
+│   ├── 📁 serializers/      # API серіалізатори
+│   │   ├── __init__.py
+│   │   ├── user_serializers.py
+│   │   ├── category_serializers.py
+│   │   ├── transaction_serializers.py
+│   │   └── event_serializers.py
+├── 📁 tests/
+│   ├── conftest.py
+│   ├── test_models.py
+│   ├── test_views.py
+│   ├── test_forms.py
+│   └── test_integration.py
+│   ├── admin.py             # Адмін панель
+│   ├── 📁 templates/        # HTML шаблони
+│   │   ├── base.html        # Базовий шаблон з навігацією
+│   │   ├── dashboard.html   # Головна панель
+│   │   ├── profile.html     # Профіль користувача
+│   │   ├── 📁 account/      # Шаблони авторизації
+│   │   └── 📁 socialaccount/ # OAuth шаблони
+│   └── 📁 static/          # Статичні файли
+│       ├── 📁 css/         # CSS стилі
+│       └── 📁 img/         # Зображення
+├── manage.py               # Django менеджер
+├── requirements.txt        # Python залежності
+└── README.md              # Документація
+```
+
+---
+
+## 🚀 API та Swagger документація
+
+### Swagger UI - Інтерактивна документація
+Після запуску сервера відкрийте: **http://localhost:8000/api/docs/**
+
+### Основні API endpoints:
+
+#### 📊 **Categories API**
 ```bash
-# Створення нових міграцій при зміні моделей
-python manage.py makemigrations
-
-# Створення міграцій для конкретного додатку
-python manage.py makemigrations core
-
-# Застосування міграцій
-python manage.py migrate
-
-# Перегляд статусу міграцій
-python manage.py showmigrations
-
-#### Корисні команди для міграцій:
-- `makemigrations` - створює файли міграцій на основі змін в моделях
-- `migrate` - застосовує міграції до бази даних
-- `showmigrations` - показує статус усіх міграцій
-- `sqlmigrate` - показує SQL код конкретної міграції
-- `--fake` - позначає міграцію як застосовану без виконання
-
----
-
-## 📁 Структура проекту
-
-<details>
-<summary><strong> Розгорнути структуру проекту</strong></summary>
-
-```
-📦 finassistant/
-├── � finassistant/                    # ⚙️ Конфігурація Django
-│   ├── 📄 __init__.py
-│   ├── 📄 settings.py                  # Основні налаштування проекту
-│   ├── 📄 urls.py                      # Головні URL маршрути
-│   ├── 📄 wsgi.py                      # WSGI конфігурація для деплою
-│   └── 📄 asgi.py                      # ASGI конфігурація для async
-│
-├── � core/                            # 🎯 Основний додаток
-│   ├── 📄 __init__.py
-│   ├── 📄 admin.py                     # Налаштування адмін-панелі
-│   ├── 📄 apps.py                      # Конфігурація додатку
-│   ├── 📄 models.py                    # 🗄️ Моделі: User, Category, Transaction, Event
-│   ├── 📄 views.py                     # 🌐 View функції та класи
-│   ├── 📄 forms.py                     # 📝 Django форми
-│   ├── 📄 urls.py                      # URL маршрути додатку
-│   │
-│   ├── 📂 api/                         # 🚀 REST API
-│   │   ├── 📄 api_views.py             # API ViewSets
-│   │   └── 📄 api_urls.py              # API маршрути
-│   │
-│   ├── � serializers/                 # 🔄 API серіалізатори
-│   │   ├── 📄 __init__.py
-│   │   ├── 📄 user_serializers.py      # Серіалізатори користувачів
-│   │   ├── 📄 category_serializers.py  # Серіалізатори категорій
-│   │   ├── 📄 transaction_serializers.py # Серіалізатори транзакцій
-│   │   └── 📄 event_serializers.py     # Серіалізатори подій
-│   │
-│   ├── � management/                  # ⚡ Кастомні команди Django
-│   │   ├── 📄 __init__.py
-│   │   └── 📂 commands/
-│   │       ├── 📄 __init__.py
-│   │       └── 📄 create_categories.py # Команда створення базових категорій
-│   │
-│   ├── 📂 migrations/                  # 🔄 Міграції бази даних
-│   │   ├── 📄 __init__.py
-│   │   └── 📄 0001_initial.py          # Початкова міграція
-│   │
-│   ├── 📂 templates/                   # 🎨 HTML шаблони
-│   │   ├── 📄 base.html                # Базовий шаблон з навігацією
-│   │   ├── 📄 dashboard.html           # Головна панель користувача
-│   │   ├── 📄 profile.html             # Сторінка профілю
-│   │   ├── 📄 transactions.html        # Сторінка транзакцій
-│   │   ├── 📄 events.html              # Сторінка подій
-│   │   ├── 📄 add_transaction.html     # Форма додавання транзакції
-│   │   ├── 📄 add_event.html           # Форма додавання події
-│   │   │
-│   │   ├── 📂 account/                 # 🔐 Шаблони авторизації
-│   │   │   ├── 📄 login.html           # Форма входу
-│   │   │   ├── 📄 logout.html          # Сторінка виходу
-│   │   │   └── 📄 password_change.html # Зміна пароля
-│   │   │
-│   │   └── 📂 socialaccount/           # 🌐 OAuth шаблони
-│   │       └── 📄 login.html           # Вхід через соціальні мережі
-│   │
-│   └── 📂 static/                      # 🎭 Статичні файли
-│       ├── � css/
-│       │   └── 📄 main.css             # Основні стилі проекту
-│       └── 📂 img/
-│           └── 📄 LifeManager.png      # Логотип проекту
-│
-├── 📂 tests/                           # 🧪 Тестування
-│   ├── 📄 __init__.py
-│   ├── 📄 conftest.py                  # Конфігурація pytest та фікстури
-│   ├── 📄 test_models.py               # Тести моделей Django
-│   ├── 📄 test_views.py                # Тести views та URL
-│   ├── 📄 test_forms.py                # Тести форм
-│   ├── 📄 test_api.py                  # Тести API endpoints
-│   └── 📄 test_integration.py          # Інтеграційні тести
-│
-├── 📄 manage.py                        # 🔧 Django менеджер команд
-├── � requirements.txt                 # 📦 Python залежності
-├── 📄 pytest.ini                      # ⚙️ Конфігурація pytest
-├── 📄 .env.example                     # 🔒 Приклад файлу змінних оточення
-├── 📄 .gitignore                       # 🚫 Git ігнорування файлів
-└── 📄 README.md                        # � Документація проекту
+GET    /api/categories/          # Список категорій
+POST   /api/categories/          # Створення категорії
+GET    /api/categories/{id}/     # Деталі категорії
+PUT    /api/categories/{id}/     # Оновлення категорії
+DELETE /api/categories/{id}/     # Видалення категорії
+GET    /api/categories/by_type/  # Категорії за типом (?type=income/expense)
 ```
 
-### 📋 Опис ключових компонентів:
-
-| Компонент | Призначення | Технології |
-|-----------|-------------|-------------|
-| **🎯 core/** | Основна бізнес-логіка | Django Models, Views, Forms |
-| **🚀 api_views.py** | REST API endpoints | Django REST Framework |
-| **🔄 serializers/** | Перетворення даних | DRF Serializers |
-| **⚡ management/** | Кастомні команди | Django Management Commands |
-| **🎨 templates/** | UI шаблони | HTML, Bootstrap 5.3 |
-| **🎭 static/** | CSS, JS, зображення | Bootstrap, Custom CSS |
-| **🧪 tests/** | Автоматичне тестування | pytest, Django TestCase |
-| **🔄 migrations/** | Схема бази даних | Django ORM |
-| **🤖 .github/** | CI/CD автоматизація | GitHub Actions |
-
-### 🎯 Особливості архітектури:
-- **📱 Responsive UI** - адаптивний дизайн для всіх пристроїв
-- **🔐 OAuth Integration** - вхід через Google та GitHub  
-- **📊 API Documentation** - автоматична генерація Swagger
-- **🧪 Test Coverage** - повне покриття тестами
-- **🚀 CI/CD Pipeline** - автоматичне тестування та деплой
-
-</details>
-
----
-
-## 🚀 API Swagger
-
-**Документація:**
-- **Swagger UI**: http://localhost:8000/api/docs/
-- **ReDoc**: http://localhost:8000/api/redoc/
-
-**Основні endpoints:**
+#### 💰 **Transactions API**
 ```bash
-# Categories
-GET/POST /api/categories/
-GET/PUT/DELETE /api/categories/{id}/
-
-# Transactions  
-GET/POST /api/transactions/
-GET /api/transactions/stats/
-
-# Events
-GET/POST /api/events/
-POST /api/events/{id}/complete/
+GET    /api/transactions/          # Список транзакцій
+POST   /api/transactions/          # Створення транзакції
+GET    /api/transactions/{id}/     # Деталі транзакції
+PUT    /api/transactions/{id}/     # Оновлення транзакції
+DELETE /api/transactions/{id}/     # Видалення транзакції
+GET    /api/transactions/stats/    # Статистика (доходи/витрати/баланс)
+GET    /api/transactions/by_type/  # Транзакції за типом
 ```
+
+#### 📅 **Events API**
+```bash
+GET    /api/events/           # Список подій
+POST   /api/events/           # Створення події
+GET    /api/events/{id}/      # Деталі події
+PUT    /api/events/{id}/      # Оновлення події
+DELETE /api/events/{id}/      # Видалення події
+POST   /api/events/{id}/complete/  # Завершити подію
+GET    /api/events/active/    # Активні події
+```
+
+#### 👤 **Profile API**
+```bash
+GET    /api/profile/me/       # Мій профіль
+```
+
+### Приклади використання API:
+
+#### Створення категорії:
+```bash
+curl -X POST http://localhost:8000/api/categories/ \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Їжа", "type": "expense"}'
+```
+
+#### Отримання статистики:
+```bash
+curl http://localhost:8000/api/transactions/stats/
+```
+
+#### Створення транзакції:
+```bash
+curl -X POST http://localhost:8000/api/transactions/ \
+  -H "Content-Type: application/json" \
+  -d '{"category": 1, "amount": "150.50", "description": "Обід"}'
+```
+
+### Авторизація API:
+- Використовується сесійна автентифікація Django
+- Для доступу до API потрібно бути авторизованим
+- Endpoint для входу: `/api-auth/login/`
+
 ---
 
-## 💻 Технології
+## Технології
 
-- **Backend**: Django 5.2+, Python 3.12+, DRF 3.16+
-- **Frontend**: Bootstrap 5.3, Chart.js
-- **API**: drf-spectacular (OpenAPI 3.0, Swagger)
-- **Auth**: django-allauth (OAuth2)
-- **Tests**: pytest, coverage
-- **DB**: SQLite/PostgreSQL
+- **Backend**: Django 5.2+, Python 3.12+, Django REST Framework 3.16+
+- **API Documentation**: drf-spectacular (OpenAPI 3.0)
+- **Frontend**: Bootstrap 5.3, Custom CSS, Chart.js
+- **База даних**: SQLite (розробка), PostgreSQL (продакшн)
+- **Авторизація**: django-allauth (OAuth2)
+- **Іконки**: Bootstrap Icons, SVG іконки
+
 ---
 
 ## Функціонал
