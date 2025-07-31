@@ -50,13 +50,13 @@ jobs:
     
     - name: Check project files
       run: |
-        echo "📂 Project structure:"
+        echo "Project structure:"
         ls -la
-        echo "📂 finassistant directory:"
+        echo "finassistant directory:"
         ls -la finassistant/
-        echo "📂 core app:"
+        echo "core app:"
         ls -la finassistant/core/
-        echo "📄 manage.py content:"
+        echo "manage.py content:"
         head -20 finassistant/manage.py
     
     - name: Django system check
@@ -91,29 +91,29 @@ jobs:
     
     - name: Check important files exist
       run: |
-        echo "📄 Checking documentation files..."
+        echo "Checking documentation files..."
         if [ -f README.md ]; then 
-          echo "✅ README.md exists ($(wc -l < README.md) lines)"
+          echo "README.md exists ($(wc -l < README.md) lines)"
         else 
-          echo "❌ README.md missing"
+          echo " README.md missing"
           exit 1
         fi
         
         if [ -f LICENSE ]; then 
-          echo "✅ LICENSE exists"
+          echo "LICENSE exists"
         else 
-          echo "❌ LICENSE missing"
+          echo "LICENSE missing"
           exit 1
         fi
         
         if [ -f requirements.txt ]; then 
-          echo "✅ requirements.txt exists ($(wc -l < requirements.txt) packages)"
+          echo "requirements.txt exists ($(wc -l < requirements.txt) packages)"
         else 
-          echo "❌ requirements.txt missing"
+          echo "requirements.txt missing"
           exit 1
         fi
         
-        echo "🎉 All required files are present!"
+        echo "All required files are present!"
 
   lint:
     runs-on: ubuntu-latest

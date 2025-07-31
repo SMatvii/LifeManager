@@ -78,7 +78,6 @@ User = get_user_model()
 
 @pytest.fixture
 def user():
-    """Create a test user"""
     return User.objects.create_user(
         username='testuser',
         email='test@example.com',
@@ -87,7 +86,6 @@ def user():
 
 @pytest.fixture
 def category():
-    """Create a test category"""
     return Category.objects.create(
         name='Test Category',
         type='expense'
@@ -95,7 +93,6 @@ def category():
 
 @pytest.fixture
 def transaction(user, category):
-    """Create a test transaction"""
     return Transaction.objects.create(
         user=user,
         category=category,

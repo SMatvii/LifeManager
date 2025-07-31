@@ -199,7 +199,6 @@ class TestEventAPIViewSet:
         assert self.event.completed == True
 
     def test_active_events(self):
-        """Тест отримання активних подій"""
         url = reverse('event-active')
         response = self.client.get(url)
         assert response.status_code == status.HTTP_200_OK
