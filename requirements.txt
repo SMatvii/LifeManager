@@ -6,11 +6,11 @@ charset-normalizer==3.4.2
 colorama==0.4.6
 coverage==7.10.1
 cryptography==45.0.5
-Django==5.2.4
-django-allauth==65.10.0
+Django==4.2.16
+django-allauth==0.61.1
 django-crispy-forms==2.4
-djangorestframework==3.15.2
-drf-spectacular==0.28.0
+djangorestframework==3.14.0
+drf-spectacular==0.26.5
 idna==3.10
 inflection==0.5.1
 iniconfig==2.1.0
