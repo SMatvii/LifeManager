@@ -69,3 +69,37 @@ def authenticated_client(user_factory):
     client.login(username='testuser', password='testpass123')
     client.user = user
     return client
+
+import pytest
+from django.contrib.auth import get_user_model
+from core.models import Category, Transaction
+
+User = get_user_model()
+
+@pytest.fixture
+def user():
+    """Create a test user"""
+    return User.objects.create_user(
+        username='testuser',
+        email='test@example.com',
+        password='testpass123'
+    )
+
+@pytest.fixture
+def category():
+    """Create a test category"""
+    return Category.objects.create(
+        name='Test Category',
+        type='expense'
+    )
+
+@pytest.fixture
+def transaction(user, category):
+    """Create a test transaction"""
+    return Transaction.objects.create(
+        user=user,
+        category=category,
+        amount=100.00,
+        description='Test transaction',
+        type='expense'
+    )

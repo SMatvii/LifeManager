@@ -55,7 +55,6 @@ class TestTransactions:
         assert Transaction.objects.filter(description='Test transaction').exists()
 
     def test_transactions_list(self, authenticated_client, transaction_factory, category_factory):
-        """Тест списку транзакцій"""
         user = authenticated_client.user
         category = category_factory(name='Test Category', cat_type='expense', owner=user)
         

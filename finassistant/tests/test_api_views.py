@@ -203,7 +203,7 @@ class TestEventAPIViewSet:
         url = reverse('event-active')
         response = self.client.get(url)
         assert response.status_code == status.HTTP_200_OK
-        assert len(response.data) == 1  # 1 активна подія
+        assert len(response.data) == 1
 
 
 @pytest.mark.django_db
