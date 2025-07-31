@@ -41,7 +41,6 @@ class TestDashboard:
 class TestTransactions:
     
     def test_add_transaction_post_valid(self, authenticated_client, category_factory):
-        """Тест додавання транзакції з валідними даними"""
         user = authenticated_client.user
         category = category_factory(name='Test Category', cat_type='expense', owner=user)
         
@@ -70,12 +69,10 @@ class TestTransactions:
 class TestEvents:
     
     def test_add_event_get(self, authenticated_client):
-        """Тест GET запиту на сторінку додавання події"""
         response = authenticated_client.get(reverse('add_event'))
         assert response.status_code == 200
 
     def test_events_list(self, authenticated_client, event_factory, category_factory):
-        """Тест списку подій"""
         user = authenticated_client.user
         category = category_factory(name='Test Category', cat_type='expense', owner=user)
         
@@ -89,7 +86,6 @@ class TestEvents:
 class TestProfile:
     
     def test_profile_view(self, authenticated_client):
-        """Тест перегляду профілю"""
         response = authenticated_client.get(reverse('profile'))
         assert response.status_code == 200
 

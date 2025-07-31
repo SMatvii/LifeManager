@@ -105,10 +105,7 @@ class TestBasicQueries:
 
 @pytest.mark.django_db
 class TestSerialization:
-    """Тести серіалізації для покращення покриття"""
-    
     def test_category_serializer_basic(self, user_factory):
-        """Базовий тест серіалізатора категорій"""
         from core.serializers import CategorySerializer
         user = user_factory()
         data = {'name': 'Test Category', 'type': 'expense'}
@@ -116,12 +113,9 @@ class TestSerialization:
         assert serializer.is_valid()
         
     def test_event_serializer_validation(self, user_factory, category_factory):
-        """Тест валідації серіалізатора подій"""
         from core.serializers import EventSerializer
         user = user_factory()
         category = category_factory(name='Test', cat_type='expense', owner=user)
-        
-        # Тест з валідним пріоритетом
         data = {
             'user': user.id,
             'title': 'Test Event', 
@@ -132,8 +126,6 @@ class TestSerialization:
         }
         serializer = EventSerializer(data=data)
         assert serializer.is_valid()
-        
-        # Тест валідації пріоритету
         try:
             EventSerializer().validate_priority('invalid')
             assert False, "Should raise validation error"

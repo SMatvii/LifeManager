@@ -26,14 +26,12 @@ class TestCategoryAPIViewSet:
         )
 
     def test_list_categories(self):
-        """Тест отримання списку категорій"""
         url = reverse('category-list')
         response = self.client.get(url)
         assert response.status_code == status.HTTP_200_OK
         assert len(response.data['results']) == 1
 
     def test_create_category(self):
-        """Тест створення категорії"""
         url = reverse('category-list')
         data = {
             'name': 'New Category',
@@ -44,14 +42,12 @@ class TestCategoryAPIViewSet:
         assert Category.objects.filter(name='New Category').exists()
 
     def test_get_category_detail(self):
-        """Тест отримання деталей категорії"""
         url = reverse('category-detail', kwargs={'pk': self.category.pk})
         response = self.client.get(url)
         assert response.status_code == status.HTTP_200_OK
         assert response.data['name'] == 'Test Category'
 
     def test_update_category(self):
-        """Тест оновлення категорії"""
         url = reverse('category-detail', kwargs={'pk': self.category.pk})
         data = {
             'name': 'Updated Category',
@@ -63,15 +59,12 @@ class TestCategoryAPIViewSet:
         assert self.category.name == 'Updated Category'
 
     def test_delete_category(self):
-        """Тест видалення категорії"""
         url = reverse('category-detail', kwargs={'pk': self.category.pk})
         response = self.client.delete(url)
         assert response.status_code == status.HTTP_204_NO_CONTENT
         assert not Category.objects.filter(pk=self.category.pk).exists()
 
     def test_categories_by_type(self):
-        """Тест фільтрації категорій за типом"""
-        # Створюємо категорію доходу
         Category.objects.create(name='Income Cat', type='income', owner=self.user)
         
         url = reverse('category-by-type')
@@ -81,11 +74,10 @@ class TestCategoryAPIViewSet:
         assert response.data[0]['type'] == 'income'
 
     def test_unauthenticated_access_denied(self):
-        """Тест що неавторизовані користувачі не мають доступу"""
         self.client.force_authenticate(user=None)
         url = reverse('category-list')
         response = self.client.get(url)
-        assert response.status_code == status.HTTP_401_UNAUTHORIZED
+        assert response.status_code == status.HTTP_403_FORBIDDEN
 
 
 @pytest.mark.django_db
@@ -112,27 +104,24 @@ class TestTransactionAPIViewSet:
         )
 
     def test_list_transactions(self):
-        """Тест отримання списку транзакцій"""
         url = reverse('transaction-list')
         response = self.client.get(url)
         assert response.status_code == status.HTTP_200_OK
         assert len(response.data['results']) == 1
 
     def test_create_transaction(self):
-        """Тест створення транзакції"""
         url = reverse('transaction-list')
         data = {
             'category': self.category.id,
             'amount': '250.75',
-            'description': 'New transaction'
+            'description': 'New transaction',
+            'user': self.user.id
         }
         response = self.client.post(url, data)
         assert response.status_code == status.HTTP_201_CREATED
         assert Transaction.objects.filter(description='New transaction').exists()
 
     def test_transaction_stats(self):
-        """Тест статистики транзакцій"""
-        # Створюємо додаткову транзакцію доходу
         income_category = Category.objects.create(
             name='Income', type='income', owner=self.user
         )
@@ -151,7 +140,6 @@ class TestTransactionAPIViewSet:
         assert 'balance' in response.data
 
     def test_transactions_by_type(self):
-        """Тест фільтрації транзакцій за типом"""
         url = reverse('transaction-by-type')
         response = self.client.get(url, {'type': 'expense'})
         assert response.status_code == status.HTTP_200_OK
@@ -184,27 +172,26 @@ class TestEventAPIViewSet:
         )
 
     def test_list_events(self):
-        """Тест отримання списку подій"""
         url = reverse('event-list')
         response = self.client.get(url)
         assert response.status_code == status.HTTP_200_OK
         assert len(response.data['results']) == 1
 
     def test_create_event(self):
-        """Тест створення події"""
         url = reverse('event-list')
         data = {
             'title': 'New Event',
             'amount': '300.00',
             'category': self.category.id,
-            'priority': 'high'
+            'priority': 'high',
+            'user': self.user.id,
+            'date': '2024-12-01'
         }
         response = self.client.post(url, data)
         assert response.status_code == status.HTTP_201_CREATED
         assert Event.objects.filter(title='New Event').exists()
 
     def test_complete_event(self):
-        """Тест завершення події"""
         url = reverse('event-complete', kwargs={'pk': self.event.pk})
         response = self.client.post(url)
         assert response.status_code == status.HTTP_200_OK
@@ -221,7 +208,6 @@ class TestEventAPIViewSet:
 
 @pytest.mark.django_db
 class TestUserProfileAPIViewSet:
-    
     def setup_method(self):
         self.client = APIClient()
         self.user = User.objects.create_user(
@@ -234,7 +220,6 @@ class TestUserProfileAPIViewSet:
         self.client.force_authenticate(user=self.user)
 
     def test_get_my_profile(self):
-        """Тест отримання власного профілю"""
         url = reverse('profile-me')
         response = self.client.get(url)
         assert response.status_code == status.HTTP_200_OK

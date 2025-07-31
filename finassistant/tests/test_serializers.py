@@ -23,7 +23,6 @@ class TestCategorySerializer:
         )
 
     def test_category_serializer_valid_data(self):
-        """Тест серіалізації категорії з валідними даними"""
         data = {
             'name': 'Test Category',
             'type': 'expense'
@@ -32,7 +31,6 @@ class TestCategorySerializer:
         assert serializer.is_valid()
         
     def test_category_serializer_invalid_type(self):
-        """Тест серіалізації категорії з невалідним типом"""
         data = {
             'name': 'Test Category',
             'type': 'invalid_type'
@@ -41,9 +39,8 @@ class TestCategorySerializer:
         assert not serializer.is_valid()
 
     def test_category_serializer_validation_error(self):
-        """Тест валідації назви категорії"""
         data = {
-            'name': '',  # Порожнє ім'я
+            'name': '',
             'type': 'expense'
         }
         serializer = CategorySerializer(data=data)
@@ -67,7 +64,6 @@ class TestEventSerializer:
         )
 
     def test_event_serializer_valid_priority(self):
-        """Тест валідації пріоритету події - валідне значення"""
         data = {
             'user': self.user.id,
             'title': 'Test Event',
@@ -80,7 +76,6 @@ class TestEventSerializer:
         assert serializer.is_valid()
 
     def test_event_serializer_invalid_priority(self):
-        """Тест валідації пріоритету події - невалідне значення"""
         data = {
             'user': self.user.id,
             'title': 'Test Event',
@@ -94,7 +89,6 @@ class TestEventSerializer:
         assert 'priority' in serializer.errors
 
     def test_event_priority_validation_message(self):
-        """Тест повідомлення про помилку валідації пріоритету"""
         serializer = EventSerializer()
         with pytest.raises(ValidationError) as exc_info:
             serializer.validate_priority('wrong_priority')
@@ -102,7 +96,6 @@ class TestEventSerializer:
         assert "Priority must be 'low', 'medium', or 'high'" in str(exc_info.value)
 
     def test_event_serializer_read_only_fields(self):
-        """Тест що category_name та user_username є read-only"""
         event = Event.objects.create(
             user=self.user,
             title='Test Event',
@@ -137,7 +130,6 @@ class TestTransactionSerializer:
         )
 
     def test_transaction_serializer_valid_data(self):
-        """Тест серіалізації транзакції з валідними даними"""
         data = {
             'user': self.user.id,
             'category': self.category.id,
@@ -148,7 +140,6 @@ class TestTransactionSerializer:
         assert serializer.is_valid()
 
     def test_transaction_serializer_read_only_fields(self):
-        """Тест read-only полів транзакції"""
         transaction = Transaction.objects.create(
             user=self.user,
             category=self.category,
@@ -169,7 +160,6 @@ class TestTransactionSerializer:
 class TestUserSerializer:
     
     def test_user_serializer_fields(self):
-        """Тест полів користувача в серіалізаторі"""
         user = User.objects.create_user(
             username='testuser',
             email='test@example.com',
