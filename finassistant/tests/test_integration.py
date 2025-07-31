@@ -40,3 +40,26 @@ class TestWorkflow:
         
         response = authenticated_client.get(reverse('dashboard'))
         assert response.status_code == 200
+
+
+@pytest.mark.django_db
+class TestAPIBasic:
+    """Базові тести API для покращення покриття"""
+    
+    def test_api_categories_list(self, authenticated_client, category_factory):
+        """Тест отримання списку категорій через API"""
+        user = authenticated_client.user
+        category_factory(name='Test Category', cat_type='expense', owner=user)
+        
+        response = authenticated_client.get('/api/categories/')
+        assert response.status_code == 200
+        
+    def test_api_transactions_list(self, authenticated_client):
+        """Тест отримання списку транзакцій через API"""
+        response = authenticated_client.get('/api/transactions/')
+        assert response.status_code == 200
+        
+    def test_api_profile(self, authenticated_client):
+        """Тест отримання профілю через API"""
+        response = authenticated_client.get('/api/profile/me/')
+        assert response.status_code == 200

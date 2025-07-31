@@ -51,9 +51,13 @@ def transaction_factory():
 def event_factory():
     from core.models import Event
     from datetime import date, timedelta
-    def create_event(user, title='Тестова подія', priority='medium', days_ahead=1):
+    def create_event(user, title='Тестова подія', amount='100.00', category=None, priority='medium', days_ahead=1):
         return Event.objects.create(
-            user=user, title=title, priority=priority,
+            user=user, 
+            title=title, 
+            amount=Decimal(str(amount)),
+            category=category,
+            priority=priority,
             date=date.today() + timedelta(days=days_ahead)
         )
     return create_event

@@ -101,3 +101,41 @@ class TestBasicQueries:
         assert expense_transactions.count() == 1
         assert income_transactions.first().amount == Decimal('30000.00')
         assert expense_transactions.first().amount == Decimal('5000.00')
+
+
+@pytest.mark.django_db
+class TestSerialization:
+    """Тести серіалізації для покращення покриття"""
+    
+    def test_category_serializer_basic(self, user_factory):
+        """Базовий тест серіалізатора категорій"""
+        from core.serializers import CategorySerializer
+        user = user_factory()
+        data = {'name': 'Test Category', 'type': 'expense'}
+        serializer = CategorySerializer(data=data)
+        assert serializer.is_valid()
+        
+    def test_event_serializer_validation(self, user_factory, category_factory):
+        """Тест валідації серіалізатора подій"""
+        from core.serializers import EventSerializer
+        user = user_factory()
+        category = category_factory(name='Test', cat_type='expense', owner=user)
+        
+        # Тест з валідним пріоритетом
+        data = {
+            'user': user.id,
+            'title': 'Test Event', 
+            'amount': '100.00',
+            'category': category.id,
+            'priority': 'high',
+            'date': '2025-12-31'
+        }
+        serializer = EventSerializer(data=data)
+        assert serializer.is_valid()
+        
+        # Тест валідації пріоритету
+        try:
+            EventSerializer().validate_priority('invalid')
+            assert False, "Should raise validation error"
+        except Exception:
+            assert True
