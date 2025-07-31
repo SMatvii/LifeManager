@@ -3,8 +3,20 @@ name: Django CI
 on:
   push:
     branches: [ "main" ]
+    paths:
+      - '**/*.py'
+      - 'requirements.txt'
+      - 'LICENSE'
+      - 'README.md'
+      - '.github/workflows/**'
   pull_request:
     branches: [ "main" ]
+    paths:
+      - '**/*.py'
+      - 'requirements.txt'
+      - 'LICENSE'
+      - 'README.md'
+      - '.github/workflows/**'
 
 jobs:
   build:
