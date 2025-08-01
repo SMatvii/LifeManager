@@ -102,4 +102,4 @@ class TestTransactions:
         assert response.status_code == 302
         
         transaction = Transaction.objects.filter(user=authenticated_client.user).first()
-        assert transaction.amount == Decimal('150.50'))
+        assert transaction.amount == Decimal('150.50')
