@@ -69,7 +69,7 @@ jobs:
       run: |
         python manage.py check
 
-    - name: 🗄️ Check for pending migrations
+    - name: Check for pending migrations
       working-directory: ./finassistant
       env:
         DJANGO_SETTINGS_MODULE: finassistant.settings
