@@ -1,22 +1,16 @@
 import os
-import sys
-import django
 import pytest
-from django.conf import settings
-from django.test import Client
-from django.contrib.auth import get_user_model
+import django
 from decimal import Decimal
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
-
-def pytest_configure(config):
-    os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'finassistant.settings')
-    django.setup()
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'finassistant.settings')
+django.setup()
 
 pytestmark = pytest.mark.django_db
 
 @pytest.fixture(scope='session')
 def django_db_setup():
+    from django.conf import settings
     settings.DATABASES['default'] = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': ':memory:',
@@ -25,6 +19,7 @@ def django_db_setup():
 
 @pytest.fixture
 def user_factory():
+    from django.contrib.auth import get_user_model
     User = get_user_model()
     def create_user(username='testuser', email='test@example.com', password='testpass123'):
         return User.objects.create_user(username=username, email=email, password=password)
@@ -64,20 +59,17 @@ def event_factory():
 
 @pytest.fixture
 def authenticated_client(user_factory):
+    from django.test import Client
     user = user_factory()
     client = Client()
     client.login(username='testuser', password='testpass123')
     client.user = user
     return client
 
-import pytest
-from django.contrib.auth import get_user_model
-from core.models import Category, Transaction
-
-User = get_user_model()
-
 @pytest.fixture
 def user():
+    from django.contrib.auth import get_user_model
+    User = get_user_model()
     return User.objects.create_user(
         username='testuser',
         email='test@example.com',
@@ -86,6 +78,7 @@ def user():
 
 @pytest.fixture
 def category():
+    from core.models import Category
     return Category.objects.create(
         name='Test Category',
         type='expense'
@@ -93,6 +86,7 @@ def category():
 
 @pytest.fixture
 def transaction(user, category):
+    from core.models import Transaction
     return Transaction.objects.create(
         user=user,
         category=category,
