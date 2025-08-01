@@ -86,16 +86,61 @@ cp .env.example .env      # Linux/Mac
 
 **Відредагуйте файл `.env`:**
 ```env
-SECRET_KEY="your-super-secret-key-here"
+Створіть файл `.env` в корені проекту та додайте наступні змінні:
+```env
+SECRET_KEY=""
 DEBUG="True"
+DATABASE_URL="sqlite:///db.sqlite3"
 DATABASE_NAME="db.sqlite3"
 
-# Опціонально: для соціальної авторизації
-GOOGLE_CLIENT_ID="your-google-client-id"
-GOOGLE_CLIENT_SECRET="your-google-client-secret"
-GITHUB_CLIENT_ID="your-github-client-id"
-GITHUB_CLIENT_SECRET="your-github-client-secret"
+GOOGLE_CLIENT_ID = ""
+GOOGLE_CLIENT_SECRET = ""
+
+GITHUB_CLIENT_ID = ""
+GITHUB_CLIENT_SECRET = ""
 ```
+
+секретний ключ можна згенерувати за допомогою Django:
+```bash
+python -c "from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())"
+```
+Нижче покроково описано, як отримати ці значення.
+---
+
+## 🔐 Як отримати Google OAuth 2.0 Client ID та Secret
+
+1. Перейдіть на [Google Cloud Console](https://console.cloud.google.com/).
+2. Створіть новий проєкт або виберіть існуючий.
+3. У меню зліва оберіть **APIs & Services > Credentials**.
+4. Натисніть **Create Credentials > OAuth 2.0 Client ID**.
+5. Якщо потрібно, спочатку налаштуйте **OAuth consent screen**:
+   - Оберіть тип (Internal або External)
+   - Заповніть необхідну інформацію: App name, User support email, Developer contact info.
+6. Оберіть **Application type: Web application**.
+7. Додайте авторизовані URI:
+   - **Authorized redirect URIs**, в нашому випадку це: `http://127.0.0.1:8000/accounts/google/login/callback/`
+8. Після створення ви отримаєте:
+   - **Client ID**
+   - **Client Secret**
+
+Збережіть ці значення у `.env` файлі вашого проєкту.
+
+---
+
+## 🔐 Як отримати GitHub OAuth Client ID та Secret
+
+1. Перейдіть на [GitHub Developer Settings](https://github.com/settings/developers).
+2. Оберіть **OAuth Apps** → натисніть **New OAuth App**.
+3. Заповніть форму:
+   - **Application name**: назва вашого додатку
+   - **Homepage URL**: в нашому випадку це, `http://127.0.0.1:8000/`
+   - **Authorization callback URL**: в нашому випадку це, `http://127.0.0.1:8000/accounts/github/login/callback/`
+4. Натисніть **Register Application**.
+5. Ви отримаєте:
+   - **Client ID**
+   - Натисніть **Generate a new client secret**, щоб отримати **Client Secret**
+
+Збережіть значення у .env файлі.
 
 ### 5️⃣ Міграції бази даних
 
