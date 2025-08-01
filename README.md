@@ -161,11 +161,7 @@ python manage.py createsuperuser
 ### 6️⃣ Запуск сервера розробки
 
 ```bash
-# Запуск Django сервера
 python manage.py runserver
-
-# Сервер буде доступний за адресою:
-# http://127.0.0.1:8000/
 ```
 
 ## Тестування
