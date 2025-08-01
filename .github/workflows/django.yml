@@ -24,16 +24,16 @@ jobs:
         python-version: ['3.12']
 
     steps:
-    - name: 📥 Checkout repository
+    - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: 🐍 Set up Python ${{ matrix.python-version }}
+    - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
       with:
         python-version: ${{ matrix.python-version }}
         cache: 'pip'
 
-    - name: 📦 Install system dependencies
+    - name: Install system dependencies
       run: |
         sudo apt-get update
         sudo apt-get install -y gettext libpq-dev
@@ -42,25 +42,25 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-        echo "✅ Installed packages:"
+        echo "Installed packages:"
         pip list | head -20
 
-    - name: 🔍 Verify Django installation
+    - name: Verify Django installation
       run: |
         python -c "import django; print(f'Django version: {django.get_version()}')"
         python -c "import rest_framework; print('DRF installed')"
         python -c "import drf_spectacular; print('Spectacular installed')"
 
-    - name: 📁 Check project structure
+    - name: Check project structure
       run: |
-        echo "📂 Project files:"
+        echo "Project files:"
         ls -la
-        echo "📂 Django project:"
+        echo "Django project:"
         ls -la finassistant/
-        echo "📂 Core app:"
+        echo "Core app:"
         ls -la finassistant/core/
 
-    - name: 🔍 Django system check
+    - name: Django system check
       working-directory: ./finassistant
       env:
         DJANGO_SETTINGS_MODULE: finassistant.settings
@@ -78,7 +78,7 @@ jobs:
       run: |
         python manage.py makemigrations --check --dry-run || echo "No pending migrations"
 
-    - name: 🚀 Apply migrations
+    - name: Apply migrations
       working-directory: ./finassistant
       env:
         DJANGO_SETTINGS_MODULE: finassistant.settings
@@ -87,7 +87,7 @@ jobs:
       run: |
         python manage.py migrate
 
-    - name: 📁 Collect static files
+    - name: Collect static files
       working-directory: ./finassistant
       env:
         DJANGO_SETTINGS_MODULE: finassistant.settings
@@ -97,7 +97,7 @@ jobs:
         mkdir -p static staticfiles
         python manage.py collectstatic --noinput || echo "Static collection skipped"
 
-    - name: 🧪 Run Django tests
+    - name: Run Django tests
       working-directory: ./finassistant
       env:
         DJANGO_SETTINGS_MODULE: finassistant.settings
@@ -106,7 +106,7 @@ jobs:
       run: |
         python manage.py test --verbosity=2 || echo "Django tests completed with issues"
 
-    - name: 📊 Run pytest
+    - name: Run pytest
       working-directory: ./finassistant
       env:
         DJANGO_SETTINGS_MODULE: finassistant.settings
@@ -119,63 +119,63 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: 📥 Checkout repository
+    - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: 🐍 Set up Python
+    - name: Set up Python
       uses: actions/setup-python@v4
       with:
         python-version: '3.12'
 
-    - name: 🔧 Install linting tools
+    - name: Install linting tools
       run: |
         python -m pip install --upgrade pip
         pip install flake8==6.0.0
 
-    - name: 🔍 Basic syntax check
+    - name: Basic syntax check
       run: |
         python -m py_compile finassistant/manage.py
-        echo "✅ manage.py compiles successfully"
+        echo "manage.py compiles successfully"
 
-    - name: 🔍 Lint with flake8 (basic)
+    - name: Lint with flake8 (basic)
       run: |
         # Check for syntax errors and undefined names
         flake8 finassistant/ --count --select=E9,F63,F7,F82 --show-source --statistics || true
-        echo "✅ Basic linting completed"
+        echo " Basic linting completed"
 
   docs:
     runs-on: ubuntu-latest
     
     steps:
-    - name: 📥 Checkout repository
+    - name: Checkout repository
       uses: actions/checkout@v4
 
-    - name: 📄 Check required files
+    - name: Check required files
       run: |
-        echo "📚 Checking project files..."
+        echo "Checking project files..."
         
         if [ -f README.md ]; then
-          echo "✅ README.md exists"
+          echo "README.md exists"
         else
-          echo "❌ README.md missing"
+          echo "README.md missing"
           exit 1
         fi
         
         if [ -f LICENSE ]; then
-          echo "✅ LICENSE exists"
+          echo "LICENSE exists"
         else
-          echo "❌ LICENSE missing"  
+          echo "LICENSE missing"  
           exit 1
         fi
         
         if [ -f requirements.txt ]; then
-          echo "✅ requirements.txt exists"
+          echo "requirements.txt exists"
         else
-          echo "❌ requirements.txt missing"
+          echo "requirements.txt missing"
           exit 1
         fi
         
-        echo "🎉 Documentation check passed!"
+        echo "Documentation check passed!"
 
   summary:
     runs-on: ubuntu-latest
@@ -183,9 +183,9 @@ jobs:
     if: always()
     
     steps:
-    - name: 🎉 Pipeline Summary
+    - name: Pipeline Summary
       run: |
-        echo "🚀 Django CI Results Summary"
+        echo "Django CI Results Summary"
         echo "========================="
         echo "Tests: ${{ needs.test.result }}"
         echo "Linting: ${{ needs.lint.result }}"  
@@ -193,7 +193,7 @@ jobs:
         echo "========================="
         
         if [ "${{ needs.test.result }}" != "failure" ]; then
-          echo "✅ Core functionality working!"
+          echo "Core functionality working!"
         else
-          echo "⚠️ Tests need attention"
+          echo "Tests need attention"
         fi
