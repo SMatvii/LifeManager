@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Редагування профілю{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-8">
+        <div class="card">
+            <div class="card-header">
+                <h4><i class="bi bi-pencil"></i> Редагування профілю</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ form.username.id_for_label }}" class="form-label">
+                                    <i class="bi bi-person-badge"></i> Нікнейм *
+                                </label>
+                                {{ form.username }}
+                                {% if form.username.help_text %}
+                                    <div class="form-text">{{ form.username.help_text }}</div>
+                                {% endif %}
+                                {% if form.username.errors %}
+                                    <div class="text-danger">{{ form.username.errors }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ form.email.id_for_label }}" class="form-label">
+                                    <i class="bi bi-envelope"></i> Email
+                                </label>
+                                {{ form.email }}
+                                {% if form.email.help_text %}
+                                    <div class="form-text">{{ form.email.help_text }}</div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ form.first_name.id_for_label }}" class="form-label">Ім'я</label>
+                                {{ form.first_name }}
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ form.last_name.id_for_label }}" class="form-label">Прізвище</label>
+                                {{ form.last_name }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ form.phone.id_for_label }}" class="form-label">
+                                    <i class="bi bi-phone"></i> Телефон
+                                </label>
+                                {{ form.phone }}
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="{{ form.birth_date.id_for_label }}" class="form-label">
+                                    <i class="bi bi-calendar"></i> Дата народження
+                                </label>
+                                {{ form.birth_date }}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.avatar.id_for_label }}" class="form-label">
+                            <i class="bi bi-image"></i> Аватар
+                        </label>
+                        {{ form.avatar }}
+                        {% if user.avatar %}
+                            <div class="mt-2">
+                                <img src="{{ user.avatar.url }}" class="rounded" style="width: 100px; height: 100px; object-fit: cover;">
+                                <small class="text-muted d-block">Поточний аватар</small>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="{{ form.bio.id_for_label }}" class="form-label">
+                            <i class="bi bi-card-text"></i> Про себе
+                        </label>
+                        {{ form.bio }}
+                    </div>
+                    
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'profile' %}" class="btn btn-secondary">
+                            <i class="bi bi-arrow-left"></i> Назад
+                        </a>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check"></i> Зберегти зміни
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

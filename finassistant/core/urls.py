@@ -9,4 +9,7 @@ urlpatterns = [
     path("events/toggle/<int:event_id>/", views.toggle_event, name="toggle_event"),
     path("transactions/", views.transactions, name="transactions"),
     path("transactions/add/<str:type>/", views.add_transaction, name="add_transaction"),
+    # path('profile/', views.profile_view, name='profile'),
+    # path('profile/edit/', views.profile_edit, name='profile_edit'),
+    # path('profile/username/', views.change_username, name='change_username'),
 ]

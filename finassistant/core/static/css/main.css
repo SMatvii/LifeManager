@@ -1,6 +1,6 @@
 body {
     background: linear-gradient(135deg, #f6f8fa 0%, #e3e9f6 100%);
-    font-family: 'Inter', Arial, sans-serif;
+    font-family:'Fira Mono', 'Roboto Mono', 'Menlo', 'Consolas', monospace !important;
     min-height: 100vh;
 }
 .navbar {
