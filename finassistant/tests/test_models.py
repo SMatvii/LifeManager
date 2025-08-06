@@ -56,7 +56,7 @@ class TestTransactionModel:
         category = category_factory(name='Їжа', cat_type='expense')
         transaction = transaction_factory(user=user, category=category, amount='100.50')
         
-        expected = f"100.50 ({category})"
+        expected = f"100.50 ({category}) - {user.username}"
         assert str(transaction) == expected
 
 

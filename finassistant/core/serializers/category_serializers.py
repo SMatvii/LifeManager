@@ -6,7 +6,7 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ['id', 'name', 'type', 'owner']
-        read_only_fields = ['id']
+        read_only_fields = ['id', 'owner']
 
     def validate_type(self, value):
         if value not in ['income', 'expense']:
