@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.db.models import Sum
 from datetime import datetime, timedelta
 import json
-from .forms import TransactionForm, EventForm
+from .forms import TransactionForm, EventForm, ProfileEditForm
 from .models import Transaction, Category, Event
 
 @login_required
@@ -153,3 +154,47 @@ def transactions(request):
     return render(request, "transactions.html", {
         "transactions": transactions,
     })
+
+@login_required
+def profile_edit(request):
+    if request.method == 'POST':
+        form = ProfileEditForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Профіль успішно оновлено!')
+            return redirect('profile')
+    else:
+        form = ProfileEditForm(instance=request.user)
+    
+    return render(request, 'profile_edit.html', {'form': form})
+
+@login_required
+def change_username(request):
+    if request.method == 'POST':
+        new_username = request.POST.get('username', '').strip()
+        
+        if not request.user.can_change_username:
+            messages.error(request, 'Ви не можете змінити нікнейм для цього типу акаунту.')
+            return redirect('profile')
+        
+        if not new_username:
+            messages.error(request, 'Нікнейм не може бути порожнім.')
+            return redirect('profile')
+        
+        if len(new_username) < 3:
+            messages.error(request, 'Нікнейм повинен містити мінімум 3 символи.')
+            return redirect('profile')
+        
+        User = get_user_model()
+        if User.objects.exclude(pk=request.user.pk).filter(username=new_username).exists():
+            messages.error(request, 'Користувач з таким нікнеймом вже існує.')
+            return redirect('profile')
+        
+        old_username = request.user.username
+        request.user.username = new_username
+        request.user.save()
+        
+        messages.success(request, f'Нікнейм успішно змінено з "{old_username}" на "{new_username}"!')
+        return redirect('profile')
+    
+    return redirect('profile')

@@ -4,6 +4,8 @@ from . import views
 urlpatterns = [
     path("", views.dashboard, name="dashboard"),
     path("profile/", views.profile, name="profile"),
+    path("profile/edit/", views.profile_edit, name="profile_edit"),
+    path("profile/username/", views.change_username, name="change_username"),
     path("events/", views.events, name="events"),
     path("events/add/", views.add_event, name="add_event"),
     path("events/toggle/<int:event_id>/", views.toggle_event, name="toggle_event"),
