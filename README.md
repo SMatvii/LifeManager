@@ -238,6 +238,6 @@ python manage.py shell
 4. **Push** в branch: `git push origin feature/AmazingFeature`
 5. Відкрийте **Pull Request**
 
-📚  [Як задеплоїти проект](./DEPLOY.md)
+📚  [Як задеплоїти проект](\financist\finassistant\DEPLOY.md)
 
 Цей проект ліцензовано під [MIT License](LICENSE) - див. файл LICENSE для деталей.
