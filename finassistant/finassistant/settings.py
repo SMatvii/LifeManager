@@ -18,10 +18,9 @@ ALLOWED_HOSTS = [
     "yamanote.proxy.rlwy.net",
     ".railway.app",
     ".up.railway.app",
-    "*",  # Тимчасово дозволити всі для налаштування TCP proxy
+    "5432",
 ]
 
-# CSRF та безпека для custom доменів
 CSRF_TRUSTED_ORIGINS = [
     "https://lifemanager.com",
     "https://www.lifemanager.com",
