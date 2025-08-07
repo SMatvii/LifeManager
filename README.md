@@ -239,3 +239,5 @@ python manage.py shell
 5. Відкрийте **Pull Request**
 
 Цей проект ліцензовано під [MIT License](LICENSE) - див. файл LICENSE для деталей.
+#   F o r c e   r e d e p l o y   -   f i x e d   s e t t i n g s . p y  
+ 
