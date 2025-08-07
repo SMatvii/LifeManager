@@ -15,7 +15,6 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-# Створюємо директорію для статичних файлів та збираємо їх
 RUN mkdir -p /app/finassistant/staticfiles
 WORKDIR /app/finassistant
 RUN python manage.py collectstatic --noinput
