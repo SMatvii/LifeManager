@@ -1,7 +1,6 @@
 import os
 from pathlib import Path
 from dotenv import load_dotenv
-import dj_database_url
 
 load_dotenv()
 
@@ -69,12 +68,28 @@ WSGI_APPLICATION = "finassistant.wsgi.application"
 ASGI_APPLICATION = "finassistant.asgi.application"
 
 DATABASES = {
-    "default": dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / os.getenv('DATABASE_NAME', 'db.sqlite3')}",
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
+    "default": {
+        "ENGINE": "django.db.backends.postgresql" if os.getenv("DATABASE_URL") and "postgresql" in os.getenv("DATABASE_URL") else "django.db.backends.sqlite3",
+        "NAME": os.getenv("DATABASE_NAME", BASE_DIR / "db.sqlite3"),
+        "USER": os.getenv("DATABASE_USER", ""),
+        "PASSWORD": os.getenv("DATABASE_PASSWORD", ""),
+        "HOST": os.getenv("DATABASE_HOST", ""),
+        "PORT": os.getenv("DATABASE_PORT", ""),
+    }
 }
+
+# Якщо є DATABASE_URL (для Docker/Railway), використовуємо його
+if os.getenv("DATABASE_URL"):
+    import urllib.parse as urlparse
+    url = urlparse.urlparse(os.getenv("DATABASE_URL"))
+    DATABASES["default"] = {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": url.path[1:],
+        "USER": url.username,
+        "PASSWORD": url.password,
+        "HOST": url.hostname,
+        "PORT": url.port,
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator"},
