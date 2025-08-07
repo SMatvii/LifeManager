@@ -2,18 +2,14 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y \
-    gettext \
-    libpq-dev \
-    gcc \
-    && rm -rf /var/lib/apt/lists/*
-
 COPY requirements.txt .
-COPY entrypoint.sh .
-RUN chmod +x entrypoint.sh
+RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
-EXPOSE $PORT
+WORKDIR /app/finassistant
 
-CMD ["bash", "entrypoint.sh"]
+ENV PORT=8000
+EXPOSE 8000
+
+CMD ["gunicorn", "finassistant.wsgi", "--host", "0.0.0.0", "--port", "8000"]
