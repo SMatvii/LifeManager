@@ -15,7 +15,7 @@ ALLOWED_HOSTS = [
     "127.0.0.1",
     "lifemanager.com",
     "yamanote.proxy.rlwy.net",
-    ".railway.app",  # Всі Railway піддомени
+    ".railway.app",
 ]
 
 INSTALLED_APPS = [
