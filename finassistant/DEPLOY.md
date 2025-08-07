@@ -1,5 +1,7 @@
 # Деплой на Heroku
 
+⚠️ **УВАГА**: Heroku більше не має безкоштовного плану. Мінімальна вартість $5-7 в місяць.
+
 ## Швидкий старт:
 
 1. **Створіть обліковий запис на Heroku**: https://signup.heroku.com/
@@ -65,3 +67,27 @@
 5. Deploy Branch
 
 Ваш сайт буде доступний на: `https://your-app-name.herokuapp.com`
+
+---
+## 🆓 Безкоштовні альтернативи
+
+### Railway (Рекомендовано)
+1. Перейдіть на: https://railway.app/
+2. **Connect GitHub** → виберіть репозиторій
+3. **Deploy** → автоматично
+4. **Variables** → додайте SECRET_KEY, DEBUG=False
+5. Отримайте URL: `https://your-app-name.up.railway.app`
+
+### Render
+1. Перейдіть на: https://render.com/
+2. **New Web Service** → Connect GitHub
+3. **Environment**: Python 3
+4. **Build Command**: `pip install -r requirements.txt`
+5. **Start Command**: `gunicorn finassistant.wsgi:application`
+6. **Environment Variables** → додайте змінні
+
+### PythonAnywhere
+1. Перейдіть на: https://www.pythonanywhere.com/
+2. **Безкоштовний акаунт** → завантажте код
+3. **Web** → створіть новий додаток
+4. Налаштуйте WSGI файл для Django
