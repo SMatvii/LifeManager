@@ -68,11 +68,11 @@ WSGI_APPLICATION = "finassistant.wsgi.application"
 ASGI_APPLICATION = "finassistant.asgi.application"
 
 DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / os.getenv("DATABASE_NAME", "db.sqlite3"),
-        "ATOMIC_REQUESTS": True,
-    }
+    "default": dj_database_url.config(
+        default=f"sqlite:///{BASE_DIR / os.getenv('DATABASE_NAME', 'db.sqlite3')}",
+        conn_max_age=600,
+        conn_health_checks=True,
+    )
 }
 
 AUTH_PASSWORD_VALIDATORS = [

@@ -1,26 +1,71 @@
 version: '3.8'
 
 services:
+  db:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: finassistant
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d finassistant"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 5s
+    restart: on-failure
+    ports:
+      - "5432:5432"
+
   web:
     build: .
+    command: >
+      sh -c "cd finassistant &&
+             python manage.py migrate --noinput &&
+             python manage.py collectstatic --noinput &&
+             gunicorn finassistant.wsgi:application --bind 0.0.0.0:8000"
     ports:
       - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app:rw
+    restart: on-failure
     environment:
       - DEBUG=True
-      - SECRET_KEY=test-secret-key-for-ci
+      - SECRET_KEY=dev-secret-key-for-docker
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/finassistant
       - ALLOWED_HOSTS=localhost,127.0.0.1
-    volumes:
-      - .:/app
-    working_dir: /app/finassistant
-    command: python manage.py runserver 0.0.0.0:8000
+
+  adminer:
+    image: adminer
+    restart: unless-stopped
+    ports:
+      - "8081:8080"
+    depends_on:
+      db:
+        condition: service_healthy
 
   test:
     build: .
+    command: >
+      sh -c "cd finassistant &&
+             python manage.py migrate --noinput &&
+             python -m pytest tests/ -v"
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - .:/app:rw
+    restart: "no"
     environment:
       - DEBUG=True
-      - SECRET_KEY=test-secret-key-for-ci
+      - SECRET_KEY=test-secret-key-for-docker
+      - DATABASE_URL=postgresql://postgres:postgres@db:5432/finassistant
       - ALLOWED_HOSTS=localhost,127.0.0.1
-    volumes:
-      - .:/app
-    working_dir: /app/finassistant
-    command: python -m pytest tests/ -v
+
+volumes:
+  db_data:
