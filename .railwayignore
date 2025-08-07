@@ -1,0 +1,11 @@
+.git/
+.venv/
+__pycache__/
+*.pyc
+.gitignore
+README.md
+.env.example
+tests/
+.github/
+setup.py
+LICENSE
