@@ -41,7 +41,7 @@
 
 ```bash
 git clone https://github.com/SMatvii/LifeManager.git
-cd finassistant
+
 ```
 
 ### 2️⃣ Створення віртуального середовища
