@@ -10,7 +10,13 @@ SECRET_KEY = os.getenv("SECRET_KEY", "django-insecure-fallback-key-for-developme
 
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "lifemanager.com",
+    "yamanote.proxy.rlwy.net",
+    ".railway.app",  # Всі Railway піддомени
+]
 
 INSTALLED_APPS = [
     "django.contrib.admin",
