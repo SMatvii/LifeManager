@@ -22,7 +22,9 @@ services:
   web:
     build: .
     command: >
-      sh -c "cd finassistant &&
+      sh -c "find /app -name '__pycache__' -type d -exec rm -rf {} + || true &&
+             find /app -name '*.pyc' -delete || true &&
+             cd finassistant &&
              python manage.py migrate --noinput &&
              python manage.py collectstatic --noinput &&
              gunicorn finassistant.wsgi:application --bind 0.0.0.0:8000"
