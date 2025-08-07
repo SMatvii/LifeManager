@@ -14,9 +14,23 @@ ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
     "lifemanager.com",
+    "www.lifemanager.com",
     "yamanote.proxy.rlwy.net",
     ".railway.app",
+    ".up.railway.app",
+    "*",  # Тимчасово дозволити всі для налаштування TCP proxy
 ]
+
+# CSRF та безпека для custom доменів
+CSRF_TRUSTED_ORIGINS = [
+    "https://lifemanager.com",
+    "https://www.lifemanager.com",
+    "https://yamanote.proxy.rlwy.net",
+    "https://*.railway.app",
+    "https://*.up.railway.app",
+]
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 INSTALLED_APPS = [
     "django.contrib.admin",
